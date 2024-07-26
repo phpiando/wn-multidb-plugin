@@ -1,0 +1,12 @@
+# ===================================
+# Filter Scope Definitions
+# ===================================
+
+scopes:
+   is_active:
+      label: 'sommer.multidb::lang.fields.tenant.is_active'
+      type: switch
+      default: 2
+      conditions:
+          - is_active <> true
+          - is_active = true

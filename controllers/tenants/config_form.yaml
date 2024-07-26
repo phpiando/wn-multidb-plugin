@@ -1,0 +1,10 @@
+name: Tenants
+form: $/sommer/multidb/models/tenant/fields.yaml
+modelClass: Sommer\MultiDB\Models\Tenant
+defaultRedirect: sommer/multidb/tenants
+create:
+    redirect: 'sommer/multidb/tenants/update/:id'
+    redirectClose: sommer/multidb/tenants
+update:
+    redirect: sommer/multidb/tenants
+    redirectClose: sommer/multidb/tenants

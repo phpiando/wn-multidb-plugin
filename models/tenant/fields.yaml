@@ -1,0 +1,39 @@
+fields:
+    is_active:
+        label: 'sommer.multidb::lang.fields.tenant.is_active'
+        span: auto
+        type: switch
+        default: 1
+        comment: 'sommer.multidb::lang.fields.tenant.comments.is_active'
+    has_updates:
+        label: 'sommer.multidb::lang.fields.tenant.has_updates'
+        span: auto
+        default: 1
+        type: switch
+        comment: 'sommer.multidb::lang.fields.tenant.comments.has_updates'
+    has_database_created:
+        label: 'sommer.multidb::lang.fields.tenant.has_database_created'
+        span: full
+        type: switch
+        context:
+            - create
+        comment: 'sommer.multidb::lang.fields.tenant.comments.has_database_created'
+    description:
+        label: 'sommer.multidb::lang.fields.tenant.description'
+        span: auto
+        attributes:
+            maxlength: '50'
+        type: text
+        comment: 'sommer.multidb::lang.fields.tenant.comments.description'
+    name:
+        label: 'sommer.multidb::lang.fields.tenant.name'
+        span: auto
+        attributes:
+            maxlength: '50'
+        type: text
+        comment: 'sommer.multidb::lang.fields.tenant.comments.name'
+    database_name:
+        label: 'sommer.multidb::lang.fields.tenant.database_name'
+        span: auto
+        type: text
+        comment: 'sommer.multidb::lang.fields.tenant.comments.database_name'

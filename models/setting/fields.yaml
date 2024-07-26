@@ -1,0 +1,22 @@
+fields:
+    database_queue_on_create:
+        label: 'sommer.multidb::lang.fields.settings.database_queue_on_create'
+        span: full
+        comment: 'sommer.multidb::lang.fields.settings.comments.database_queue_on_create'
+        type: switch
+        default: 1
+    database_prefix:
+        label: 'sommer.multidb::lang.fields.settings.database_prefix'
+        span: auto
+        default: hice_
+        type: text
+    database_rule_to_name:
+        label: 'sommer.multidb::lang.fields.settings.database_rule_to_name'
+        span: auto
+        default: hash
+        type: balloon-selector
+    plugins:
+        label: 'sommer.multidb::lang.fields.settings.plugins'
+        span: auto
+        type: checkboxlist
+        comment: 'sommer.multidb::lang.fields.settings.comments.plugins'

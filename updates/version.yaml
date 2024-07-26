@@ -1,0 +1,8 @@
+1.0.1:
+    - 'Initialize plugin.'
+1.0.2:
+    - 'Created table sommer_multidb_tenants'
+    - builder_table_create_sommer_multidb_tenants.php
+1.0.3:
+    - 'Created table sommer_multidb_migration_errors'
+    - builder_table_create_sommer_multidb_migration_errors.php

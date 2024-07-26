@@ -1,0 +1,20 @@
+columns:
+    id:
+        label: ID
+        type: number
+        searchable: true
+        width: px
+    name:
+        label: 'sommer.multidb::lang.fields.tenant.name'
+        type: text
+        searchable: true
+    database_name:
+        label: 'sommer.multidb::lang.fields.tenant.database_name'
+        type: text
+        searchable: true
+    is_active:
+        label: 'sommer.multidb::lang.fields.tenant.is_active'
+        type: switch
+    has_updates:
+        label: 'sommer.multidb::lang.fields.tenant.has_updates'
+        type: switch

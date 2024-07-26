@@ -1,0 +1,13 @@
+plugin:
+    name: 'sommer.multidb::lang.plugin.name'
+    description: 'sommer.multidb::lang.plugin.description'
+    author: Sommer
+    icon: wn-icon-adjust
+    replaces: {  }
+permissions:
+    sommer.multidb.tenants:
+        tab: 'sommer.multidb::lang.plugin.name'
+        label: 'sommer.multidb::lang.permissions.multidb.tenants'
+    sommer.multidb.settings:
+        tab: 'sommer.multidb::lang.plugin.name'
+        label: 'sommer.multidb::lang.permissions.multidb.settings'

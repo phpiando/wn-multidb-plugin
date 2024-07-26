@@ -1,0 +1,5 @@
+$(function() {
+	$.popup({ 
+		handler: 'onModalTenantSelection'
+	});
+});

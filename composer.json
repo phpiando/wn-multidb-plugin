@@ -1,0 +1,13 @@
+{
+    "name": "sommer/wn-multidb-plugin",
+    "type": "winter-plugin",
+    "description": "Plugin for WinterCMS to manage multiple databases",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Roni Sommerfeld - 4Tech.mobi",
+            "email": "roni@4tech.mobi"
+        }
+    ],
+    "require": {}
+}
