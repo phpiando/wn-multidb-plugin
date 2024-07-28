@@ -22,6 +22,18 @@ To use MultiDB you will need to follow the steps below.
 **Important**
 It is necessary to have a user in the database who can Read, Edit and Update data, as well as create new databases.
 
+### Configuration .env
+This is optional, but if you want to configure data from another connection in the tenants, you can put Multidb in the .env. If you don't put anything, it will automatically assume the access data from your main database server that is used in DB_*.
+
+```
+MULTIDB_CONNECTION=multidb
+MULTIDB_HOST=127.0.0.1
+MULTIDB_PORT=3306
+MULTIDB_DATABASE=my_base
+MULTIDB_USERNAME=root
+MULTIDB_PASSWORD=
+```
+
 #### MultiDB Plugin
 First Navigate to `Settings -> MultiDB -> Settings Plugin`, in this place you can configure the prefixes that the databases may have, configure what will be the names of each databases, and also, you can select which plugins will be replicated for the new created instances.
 
@@ -53,7 +65,27 @@ class Product extends Model
 }
 ```
 
-#### BONUS: MultiFiles with MultiDB
+### Behaviors
+#### TenantSelectionBehavior
+The TenantSelectionBehavior class added to the controller will allow the user to choose a Tenant to view once they try to access this controller (if they haven't selected one previously). At this point, this behavior adds a button next to the user's image to the navigation menu, which allows them to change the selected Tenant.
+
+```php
+class Summaries extends Controller
+{
+    /**
+     * @var array
+     */
+    public $implement = [
+        'Backend\Behaviors\ListController',
+        'Backend\Behaviors\FormController',
+        'Sommer\MultiDB\Behaviors\TenantSelectionBehavior', // <-- add this line
+    ];
+}
+```
+
+
+### Models Helpers
+#### Files
 If in case you want to save the files in the new database, you will need to use the model `Sommer\Multidb\Models\File`, example use:
 
 ```php
