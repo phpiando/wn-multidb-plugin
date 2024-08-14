@@ -1,6 +1,6 @@
 {
     "name": "sommer/wn-multidb-plugin",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "type": "winter-plugin",
     "description": "Plugin for WinterCMS to manage multiple databases",
     "license": "MIT",

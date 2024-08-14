@@ -95,7 +95,7 @@ class TenantModelService
             return $this->getUniqueHash();
         }
 
-        return Str::slug($name);
+        return Str::slug($name, '_');
     }
 
     /**
