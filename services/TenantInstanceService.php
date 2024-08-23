@@ -74,6 +74,9 @@ class TenantInstanceService
             }
 
             $this->migrationUp();
+
+            $this->tenant->has_database_created = true;
+            $this->tenant->save();
         } catch (Throwable $th) {
             throw $th;
         }

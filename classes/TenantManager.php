@@ -13,6 +13,8 @@ use Winter\Storm\Exception\ApplicationException;
  */
 class TenantManager
 {
+    use \Winter\Storm\Support\Traits\Singleton;
+
     /**
      * Tenant connection name
      * @since 1.0.0

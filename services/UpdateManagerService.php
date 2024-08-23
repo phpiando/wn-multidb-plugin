@@ -86,6 +86,7 @@ class UpdateManagerService extends UpdateManager
     public function createMigrationTable(): void
     {
         $firstUp = !Schema::hasTable($this->getMigrationTableName());
+
         if (!$firstUp) {
             return;
         }
