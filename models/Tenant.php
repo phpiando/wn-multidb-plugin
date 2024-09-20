@@ -58,8 +58,25 @@ class Tenant extends Model
         (new TenantModelService)->afterCreate($this);
     }
 
+    /**
+     * Scope a query to only include active tenants.
+     *
+     * @param Builder $query
+     * @return Builder
+     */
     public function scopeIsActive(Builder $query): Builder
     {
         return $query->where('is_active', true);
+    }
+
+    /**
+     * Scope a query to only include tenants with updates.
+     *
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeHasUpdates(Builder $query): Builder
+    {
+        return $query->where('has_updates', true);
     }
 }

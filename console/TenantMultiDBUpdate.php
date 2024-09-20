@@ -39,6 +39,7 @@ class TenantMultiDBUpdate extends Command
         $databaseName = $this->option('database_name');
         $tenantId     = $this->option('tenant_id');
         $all          = $this->option('all');
+        $limit        = $this->option('limit');
 
         if (!$databaseName && !$all && !$tenantId) {
             if ($this->output->confirm('You want to update all tenants?')) {
@@ -81,15 +82,25 @@ class TenantMultiDBUpdate extends Command
      * @since 1.0.0
      * @return void
      */
-    public function updateAllTenants(): void
+    public function updateAllTenants(int $limit = 0): void
     {
-        $tenants = Tenant::all();
+        $tenants = Tenant::isActive()->hasUpdates()->orderBy('updated_at', 'asc');
+
+        if($limit) {
+            $tenants = $tenants->take($limit);
+        }
+
+        $tenants = $tenants->get();
+
         $service = (new TenantInstanceService)->setNotesOutput($this->output);
 
         foreach ($tenants as $tenant) {
             $this->output->success('Updating tenant: ' . $tenant->database_name);
             $service->setTenant($tenant)
                 ->forceUpdate();
+
+            $tenant->updated_at = now();
+            $tenant->save();
         }
     }
 
@@ -101,9 +112,10 @@ class TenantMultiDBUpdate extends Command
     public function getOptions(): array
     {
         return [
-            ['--database_name', null, InputOption::VALUE_REQUIRED, 'The tenant name to update the database.', null],
+            ['--database_name', null, InputOption::VALUE_NONE, 'The tenant name to update the database.', null],
             ['--all', null, InputOption::VALUE_NONE, 'Force the update.', null],
-            ['--tenant_id', null, InputOption::VALUE_REQUIRED, 'The tenant id to update the database.', null],
+            ['--tenant_id', null, InputOption::VALUE_NONE, 'The tenant id to update the database.', null],
+            ['--limit', null, InputOption::VALUE_NONE, 'The limit of tenants to update.', null],
         ];
     }
 }
