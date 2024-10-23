@@ -66,6 +66,7 @@
         ],
         'success' => [
             'tenant_selected' => 'Tenant selecionado com sucesso, alterando a visualização para o tenant selecionado.',
+            'tenant_updated' => 'Tenant atualizado com sucesso.',
         ],
     ],
     'modals' => [

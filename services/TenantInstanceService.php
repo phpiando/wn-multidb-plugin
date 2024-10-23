@@ -69,7 +69,7 @@ class TenantInstanceService
             $this->validateHasTenant();
 
             if ($this->settings->get('database_queue_on_create')) {
-                (new TenantDatabaseUpQueue)->registerQueue(['tenant_id' => $this->tenant->id]);
+                $this->addQueueToUpdate($this->tenant->id);
                 return;
             }
 
@@ -80,6 +80,17 @@ class TenantInstanceService
         } catch (Throwable $th) {
             throw $th;
         }
+    }
+
+    /**
+     * Add the tenant to the queue to update
+     * @since 1.2.0
+     * @param string $tenantId
+     * @return void
+     */
+    public function addQueueToUpdate(string $tenantId): void
+    {
+        (new TenantDatabaseUpQueue)->registerQueue(['tenant_id' => $tenantId]);
     }
 
     /**

@@ -66,6 +66,7 @@
         ],
         'success' => [
             'tenant_selected' => 'Tenant successfully selected, changing the view to the selected tenant.',
+            'tenant_updated' => 'Tenant successfully updated.',
         ],
     ],
     'modals' => [

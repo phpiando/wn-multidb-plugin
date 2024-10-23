@@ -94,7 +94,7 @@ class TenantManager
         $tenant->database_host ? $configDatabase['host'] = $tenant->database_host : null;
         $tenant->database_port ? $configDatabase['port'] = $tenant->database_port : null;
         $tenant->database_user ? $configDatabase['username'] = $tenant->database_user : null;
-        $tenant->database_password ? $configDatabase['password'] = $tenant->database_password : null;
+        $tenant->database_pass ? $configDatabase['password'] = $tenant->database_pass : null;
 
         $configDatabase['database'] = $tenant->database_name;
 
