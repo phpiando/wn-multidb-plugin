@@ -6,6 +6,7 @@ use Sommer\MultiDB\Models\Tenant;
 use Illuminate\Support\Facades\DB;
 use Sommer\Multidb\Models\Setting;
 use Illuminate\Database\Migrations\Migrator;
+use Sommer\MultiDB\Classes\TenantManager;
 use Sommer\Multidb\Queues\TenantDatabaseUpQueue;
 use Sommer\MultiDB\Services\UpdateManagerService;
 
@@ -74,6 +75,7 @@ class TenantInstanceService
             }
 
             $this->migrationUp();
+            $this->closeConnection();
 
             $this->tenant->has_database_created = true;
             $this->tenant->save();
@@ -91,6 +93,17 @@ class TenantInstanceService
     public function addQueueToUpdate(string $tenantId): void
     {
         (new TenantDatabaseUpQueue)->registerQueue(['tenant_id' => $tenantId]);
+    }
+
+    /**
+     * Close the connection
+     * @since 1.3.0
+     * @return void
+     */
+    public function closeConnection(): void
+    {
+        // Fecha a conexão do tenant atual
+        DB::disconnect(name: TenantManager::getTenantConnectionName());
     }
 
     /**
@@ -133,6 +146,7 @@ class TenantInstanceService
         try {
             $this->createDatabaseIfNotExists();
             $this->migrationUp();
+            $this->closeConnection();
         } catch (Throwable $th) {
             throw $th;
         }
