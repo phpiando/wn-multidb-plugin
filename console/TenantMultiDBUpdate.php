@@ -28,7 +28,7 @@ class TenantMultiDBUpdate extends Command
     /**
      * @var string The console command signature.
      */
-    protected $signature = 'multidb:up {--database_name=} {--tenant_id=} {--all}';
+    protected $signature = 'multidb:up {--database_name=} {--tenant_id=} {--all} {--limit=}';
 
     /**
      * Execute the console command.
@@ -39,18 +39,18 @@ class TenantMultiDBUpdate extends Command
         $databaseName = $this->option('database_name');
         $tenantId     = $this->option('tenant_id');
         $all          = $this->option('all');
-        $limit        = $this->option('limit');
+        $limit        = $this->option('limit') ?: 0;
 
         if (!$databaseName && !$all && !$tenantId) {
             if ($this->output->confirm('You want to update all tenants?')) {
-                $this->updateAllTenants();
+                $this->updateAllTenants($limit);
             }
 
             return;
         }
 
         if ($all) {
-            $this->updateAllTenants();
+            $this->updateAllTenants($limit);
             return;
         }
 
