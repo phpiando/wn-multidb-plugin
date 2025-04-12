@@ -134,6 +134,10 @@ class File extends FileBase
      */
     public function getStorageDirectory()
     {
+        if($this->getDatabaseName()){
+            return $this->getStorageDatabase();
+        }
+
         $uploadsFolder = Config::get('cms.storage.uploads.folder');
 
         if ($this->isPublic()) {
@@ -141,6 +145,16 @@ class File extends FileBase
         }
 
         return $uploadsFolder . '/protected/';
+    }
+
+    public function getStorageDatabase(){
+        $databaseName = $this->getDatabaseName() ?? '';
+
+        if ($this->isPublic()) {
+            return $databaseName . '/uploads/public/';
+        }
+
+        return $databaseName . '/uploads/protected/';
     }
 
     /**
