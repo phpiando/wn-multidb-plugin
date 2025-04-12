@@ -1,9 +1,11 @@
 <?php
 namespace Sommer\Multidb\Models;
 
-use System\Models\File as SystemFile;
+use Storage;
+use Backend\Controllers\Files;
 use Winter\Storm\Support\Facades\Url;
 use Illuminate\Support\Facades\Config;
+use Winter\Storm\Database\Attach\File as FileBase;
 
 /**
  * @class File Model
@@ -11,28 +13,17 @@ use Illuminate\Support\Facades\Config;
  * @since 1.0.0
  * @author Roni Sommerfeld<roni@4tech.mobi>
  *
+ * @override \System\Models\File
  * @see \System\Models\File
  */
-class File extends SystemFile
+class File extends FileBase
 {
-
     use \Sommer\MultiDB\Traits\UsesTenantConnection;
 
     /**
-     * Define the internal storage path, override this method to define.
-     * @override
-     * @return string
+     * @var string The database table used by the model.
      */
-    public function getStorageDirectory()
-    {
-        $databaseName = $this->getDatabaseName() ?? '';
-
-        if ($this->isPublic()) {
-            return $databaseName . 'uploads/public/';
-        }
-
-        return $databaseName . 'uploads/protected/';
-    }
+    protected $table = 'system_files';
 
     /**
      * Define the public address for the storage path.
@@ -43,7 +34,7 @@ class File extends SystemFile
         $databaseName = $this->getDatabaseName() ?? null;
 
         if (!$databaseName) {
-            return parent::getPublicPath();
+            return $this->getPublicPathDefault();
         }
 
         $uploadsPath = Config::get('cms.storage.uploads.path', '/storage/app/uploads');
@@ -59,12 +50,30 @@ class File extends SystemFile
     }
 
     /**
+     * Define the public address for the storage path.
+     */
+    public function getPublicPathDefault()
+    {
+        $uploadsPath = Config::get('cms.storage.uploads.path', '/storage/app/uploads');
+
+        if ($this->isPublic()) {
+            $uploadsPath .= '/public';
+        }
+        else {
+            $uploadsPath .= '/protected';
+        }
+
+        return Url::asset($uploadsPath) . '/';
+    }
+
+
+    /**
      * If working with local storage, determine the absolute local path.
      * @override
      */
     protected function getLocalRootPath(): string
     {
-        $path         = null;
+        $path = null;
         $databaseName = $this->getDatabaseName();
 
         if ($this->isLocalStorage()) {
@@ -80,5 +89,66 @@ class File extends SystemFile
         }
 
         return $path;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getThumb($width, $height, $options = [])
+    {
+        $url = '';
+        $width = !empty($width) ? $width : 0;
+        $height = !empty($height) ? $height : 0;
+
+        if (!$this->isPublic() && class_exists(Files::class)) {
+            $options = $this->getDefaultThumbOptions($options);
+            // Ensure that the thumb exists first
+            parent::getThumb($width, $height, $options);
+
+            // Return the Files controller handler for the URL
+            $url = Files::getThumbUrl($this, $width, $height, $options);
+        } else {
+            $url = parent::getThumb($width, $height, $options);
+        }
+
+        return $url;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPath($fileName = null)
+    {
+        $url = '';
+        if (!$this->isPublic() && class_exists(Files::class)) {
+            $url = Files::getDownloadUrl($this);
+        } else {
+            $url = parent::getPath($fileName);
+        }
+
+        return $url;
+    }
+
+    /**
+     * Define the internal storage path.
+     */
+    public function getStorageDirectory()
+    {
+        $uploadsFolder = Config::get('cms.storage.uploads.folder');
+
+        if ($this->isPublic()) {
+            return $uploadsFolder . '/public/';
+        }
+
+        return $uploadsFolder . '/protected/';
+    }
+
+    /**
+     * Returns the storage disk the file is stored on
+     * @return FilesystemAdapter
+     */
+    public function getDisk()
+    {
+        return Storage::disk(Config::get('cms.storage.uploads.disk'));
     }
 }
