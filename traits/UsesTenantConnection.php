@@ -99,7 +99,7 @@ trait UsesTenantConnection
      * @since 1.0.0
      * @return string
      */
-    public function getDatabaseName(): string
+    public function getDatabaseName(): ?string
     {
         return TenantManager::getTenantDatabaseName();
     }
