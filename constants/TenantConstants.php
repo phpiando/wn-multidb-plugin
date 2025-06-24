@@ -58,6 +58,13 @@ class TenantConstants
     public const QUEUE_DEFAULT = 'default';
 
     /**
+     * The timeout after create queue
+     * @since 1.5.0
+     * @var int
+     */
+    public const TIMEOUT_AFTER_CREATE_QUEUE = 10;
+
+    /**
      * The fields for the update context
      * @since 1.0.0
      * @var array

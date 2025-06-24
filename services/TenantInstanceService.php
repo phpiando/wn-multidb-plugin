@@ -40,6 +40,13 @@ class TenantInstanceService
     protected ?Migrator $migrator;
 
     /**
+     * If the migration should be run immediately
+     * @since 1.5.0
+     * @var bool
+     */
+    protected bool $immediateUp = false;
+
+    /**
      * @var \Illuminate\Console\OutputStyle
      */
     protected ?\Illuminate\Console\OutputStyle $notesOutput = null;
@@ -50,11 +57,12 @@ class TenantInstanceService
      * @param Tenant $tenant
      * @return void
      */
-    public function __construct(?Tenant $tenant = null)
+    public function __construct(?Tenant $tenant = null, bool $immediateUp = false)
     {
         $this->setTenant($tenant);
         $this->settings = Setting::instance();
         $this->migrator = app('migrator');
+        $this->immediateUp = $immediateUp;
     }
 
     /**
@@ -69,7 +77,7 @@ class TenantInstanceService
             $this->createDatabaseIfNotExists();
             $this->validateHasTenant();
 
-            if ($this->settings->get('database_queue_on_create')) {
+            if ($this->settings->get('database_queue_on_create') && !$this->immediateUp) {
                 $this->addQueueToUpdate($this->tenant->id);
                 return;
             }

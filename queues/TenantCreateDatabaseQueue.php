@@ -37,7 +37,11 @@ class TenantCreateDatabaseQueue
     {
         try {
             $tenant = Tenant::find($data['tenant_id']);
-            (new TenantInstanceService($tenant))->startCreateDatabase();
+            $immediate = $data['immediate'] ?? false;
+
+            (new TenantInstanceService(tenant: $tenant, immediateUp: $immediate))->startCreateDatabase();
+
+            sleep(TenantConstants::TIMEOUT_AFTER_CREATE_QUEUE);
 
             $job->delete();
         } catch (\Throwable $ex) {

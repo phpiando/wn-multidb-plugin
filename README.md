@@ -105,3 +105,13 @@ class Product extends Model
     ...
 }
 ```
+
+## License
+This plugin is released under the [MIT License](https://opensource.org/license/mit/). You can freely use, modify, and distribute it in your projects, but please keep the original license intact.
+
+## Sponsors
+If you find this plugin useful and would like to support its development, consider sponsoring the project. Your contributions help keep the project alive and improve its features.
+You can sponsor the project on [GitHub Sponsors](https://github.com/sponsors/phpiando).
+
+## Contributing
+Contributions are welcome! If you find any issues or have suggestions for improvements, feel free to open an issue or submit a pull request on the [GitHub repository](https://github.com/phpiando/wn-multidb-plugin).
