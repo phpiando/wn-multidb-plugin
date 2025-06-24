@@ -75,6 +75,23 @@ trait UsesTenantConnection
     }
 
     /**
+     * Get a new query builder for the tenant connection
+     * @since 1.6.0
+     * @param Tenant|null $tenant
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function tenantQuery(?Tenant $tenant = null): \Illuminate\Database\Eloquent\Builder
+    {
+        if(!$tenant) {
+            $tenant = TenantManager::getTenant();
+        }
+
+        $model = new self();
+        return $model->startTenantConnection($tenant->database_name, $tenant)
+            ->newQuery();
+    }
+
+    /**
      * Get the tenant connection
      * @since 1.0.0
      * @return Tenant|null
