@@ -68,30 +68,6 @@ class File extends FileBase
 
 
     /**
-     * If working with local storage, determine the absolute local path.
-     * @override
-     */
-    protected function getLocalRootPath(): string
-    {
-        $path = null;
-        $databaseName = $this->getDatabaseName();
-
-        if ($this->isLocalStorage()) {
-            $path = $this->getDisk()->getConfig()['root'] ?? null;
-        }
-
-        if (is_null($path)) {
-            $path = storage_path('app');
-        }
-
-        if ($databaseName) {
-            $path = "{$path}/{$databaseName}";
-        }
-
-        return $path;
-    }
-
-    /**
      * {@inheritDoc}
      */
     public function getThumb($width, $height, $options = [])
