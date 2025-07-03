@@ -6,6 +6,7 @@ use Backend\Controllers\Files;
 use Winter\Storm\Support\Facades\Url;
 use Illuminate\Support\Facades\Config;
 use Winter\Storm\Database\Attach\File as FileBase;
+use Illuminate\Filesystem\FilesystemAdapter;
 
 /**
  * @class File Model
@@ -29,7 +30,7 @@ class File extends FileBase
      * Define the public address for the storage path.
      * @override
      */
-    public function getPublicPath()
+    public function getPublicPath(): string
     {
         $databaseName = $this->getDatabaseName() ?? null;
 
@@ -93,7 +94,7 @@ class File extends FileBase
     /**
      * {@inheritDoc}
      */
-    public function getPath($fileName = null)
+    public function getPath(?string $fileName = null): string
     {
         $url = '';
         if (!$this->isPublic() && class_exists(Files::class)) {
@@ -108,7 +109,7 @@ class File extends FileBase
     /**
      * Define the internal storage path.
      */
-    public function getStorageDirectory()
+    public function getStorageDirectory(): string
     {
         if($this->getDatabaseName()){
             return $this->getStorageDatabase();
@@ -123,7 +124,7 @@ class File extends FileBase
         return $uploadsFolder . '/protected/';
     }
 
-    public function getStorageDatabase(){
+    public function getStorageDatabase(): string{
         $databaseName = $this->getDatabaseName() ?? '';
 
         if ($this->isPublic()) {
@@ -137,7 +138,7 @@ class File extends FileBase
      * Returns the storage disk the file is stored on
      * @return FilesystemAdapter
      */
-    public function getDisk()
+    public function getDisk(): FilesystemAdapter
     {
         return Storage::disk(Config::get('cms.storage.uploads.disk'));
     }

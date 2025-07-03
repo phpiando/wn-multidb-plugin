@@ -69,6 +69,17 @@ class TenantManager
     }
 
     /**
+     * Summary of startTenantById
+     * @since 1.6.2
+     * @param string $tenantId
+     * @return void
+     */
+    public function startTenantById(string $tenantId): void {
+        $tenant = Tenant::find($tenantId);
+        $this->startTenantConnection($tenant);
+    }
+
+    /**
      * Reconnect the tenant connection
      * @since 1.0.0
      * @param string $connectionName
